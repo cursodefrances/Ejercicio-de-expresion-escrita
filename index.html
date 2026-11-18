@@ -1,0 +1,333 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expression Écrite & Traduction : Francés A1-A2 (Leçons 1 à 8)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            frenchNavy: {
+              950: '#0a1128',
+              900: '#0f172a',
+              800: '#1e3a8a',
+              700: '#1d4ed8',
+              100: '#dbeafe',
+              50: '#eff6ff',
+            },
+            frenchRed: {
+              600: '#dc2626',
+              500: '#ef4444',
+              100: '#fee2e2',
+              50: '#fef2f2',
+            },
+            frenchGold: {
+              600: '#b45309',
+              500: '#d97706',
+              400: '#fbbf24',
+              100: '#fef3c7',
+              50: '#fffbeb',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+    .tricolor-stripe {
+      background: linear-gradient(90deg, #1e3a8a 0%, #1e3a8a 33.3%, #ffffff 33.3%, #ffffff 66.6%, #dc2626 66.6%, #dc2626 100%);
+    }
+    .fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Barra superior tricolor -->
+  <div class="h-1.5 w-full tricolor-stripe shadow-xs"></div>
+
+  <!-- Encabezado principal -->
+  <header class="bg-frenchNavy-900 text-white shadow-md sticky top-0 z-30">
+    <div class="max-w-4xl mx-auto px-4 py-3.5 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-10 h-10 rounded-xl bg-frenchNavy-800 border border-frenchGold-400/40 flex items-center justify-center text-frenchGold-400 shrink-0 shadow-inner">
+          <i class="fa-solid fa-pen-nib text-lg"></i>
+        </div>
+        <div class="min-w-0">
+          <h1 class="font-bold text-sm sm:text-lg leading-tight truncate">
+            Expression Écrite : <span class="text-frenchGold-400">Traduction</span>
+          </h1>
+          <p class="text-xs text-slate-300 truncate">Curso Intensivo de Francés A1-A2 • Leçons 1 à 8</p>
+        </div>
+      </div>
+
+      <!-- Indicadores activos durante el ejercicio -->
+      <div id="header-active-stats" class="hidden items-center gap-2.5 sm:gap-4 shrink-0">
+        <div class="hidden sm:flex items-center gap-1.5 text-xs bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+          <i class="fa-solid fa-user text-frenchGold-400"></i>
+          <span id="header-student-name" class="font-medium max-w-[130px] truncate">Estudiante</span>
+        </div>
+        <div class="flex items-center gap-1.5 text-xs sm:text-sm bg-emerald-950/80 text-emerald-300 border border-emerald-700/50 px-3 py-1.5 rounded-lg font-bold" title="Palabras acertadas acumuladas">
+          <i class="fa-solid fa-spell-check"></i>
+          <span id="header-word-score">0 pts</span>
+        </div>
+        <button type="button" onclick="confirmExit()" title="Volver al inicio"
+          class="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 transition">
+          <i class="fa-solid fa-house"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal -->
+  <main class="flex-1 max-w-4xl w-full mx-auto px-4 py-6 sm:py-8">
+
+    <!-- ==================== VISTA 1: PANTALLA DE INICIO ==================== -->
+    <section id="view-start" class="max-w-2xl mx-auto fade-in">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+        <!-- Banner superior -->
+        <div class="bg-gradient-to-br from-frenchNavy-950 via-frenchNavy-900 to-frenchNavy-800 p-6 sm:p-8 text-white relative overflow-hidden">
+          <div class="relative z-10">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-frenchGold-400 border border-white/15 mb-3">
+              <i class="fa-solid fa-feather-pointed"></i> Evaluación de Producción Escrita • Bloque 1
+            </span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">
+              Taller de Traducción: Español → Francés
+            </h2>
+            <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+              Traduce al francés <strong>20 oraciones</strong> diseñadas con la gramática y el vocabulario de las <strong>Lecciones 1 a 8</strong>. Nuestro corrector inteligente evaluará tu respuesta <strong>palabra por palabra</strong> y generará un diagnóstico personalizado de tus áreas a reforzar.
+            </p>
+          </div>
+          <i class="fa-solid fa-pen-fancy text-white/5 text-9xl absolute -right-4 -bottom-6 pointer-events-none"></i>
+        </div>
+
+        <!-- Detalles y formulario -->
+        <div class="p-6 sm:p-8 space-y-6">
+          <!-- Leyenda del sistema de corrección -->
+          <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/80 space-y-2.5">
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-500">
+              ¿Cómo funciona la corrección palabra por palabra?
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+              <div class="flex items-center gap-2 bg-white p-2.5 rounded-lg border border-emerald-200">
+                <span class="w-3 h-3 rounded-full bg-emerald-500 shrink-0"></span>
+                <div><strong class="text-emerald-800 block">Acierto exacto (1 pt)</strong><span class="text-slate-500">Palabra y acento correctos</span></div>
+              </div>
+              <div class="flex items-center gap-2 bg-white p-2.5 rounded-lg border border-amber-200">
+                <span class="w-3 h-3 rounded-full bg-amber-400 shrink-0"></span>
+                <div><strong class="text-amber-800 block">Casi acertada (0.5 pt)</strong><span class="text-slate-500">Diferencia leve de tilde/ligadura</span></div>
+              </div>
+              <div class="flex items-center gap-2 bg-white p-2.5 rounded-lg border border-frenchRed-200">
+                <span class="w-3 h-3 rounded-full bg-frenchRed-500 shrink-0"></span>
+                <div><strong class="text-frenchRed-800 block">A corregir (0 pts)</strong><span class="text-slate-500">Palabra incorrecta u omitida</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input opcional de nombre -->
+          <div>
+            <label for="student-name" class="block text-sm font-semibold text-slate-700 mb-2">
+              Nombre del Estudiante <span class="text-slate-400 font-normal">(opcional)</span>
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                <i class="fa-solid fa-user-pen"></i>
+              </span>
+              <input type="text" id="student-name" placeholder="Ej. Camille Laurent / Andrés Gómez"
+                class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-frenchNavy-800 focus:border-frenchNavy-800 outline-none transition text-slate-800 font-medium"
+                onkeypress="if(event.key === 'Enter') startWritingTest()">
+            </div>
+          </div>
+
+          <!-- Botón de inicio -->
+          <button type="button" onclick="startWritingTest()"
+            class="w-full py-3.5 px-6 rounded-xl bg-frenchNavy-800 hover:bg-frenchNavy-900 active:scale-[0.99] text-white font-bold text-base shadow-md shadow-frenchNavy-900/20 transition flex items-center justify-center gap-2.5">
+            <span>Comenzar Evaluación de Escritura (20 Frases)</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VISTA 2: EJERCICIO DE TRADUCCIÓN ACTIVO ==================== -->
+    <section id="view-exercise" class="hidden fade-in space-y-5">
+      <!-- Barra de progreso -->
+      <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+          <span id="q-lesson-badge" class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-lg bg-frenchNavy-100 text-frenchNavy-800">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Leçon 1</span>
+          </span>
+          <div class="flex items-center gap-3 text-xs sm:text-sm font-semibold text-slate-600">
+            <span>Frase <strong id="q-current" class="text-frenchNavy-900">1</strong> de <strong class="text-frenchNavy-900">20</strong></span>
+            <span class="text-slate-300">|</span>
+            <span id="q-percent" class="text-frenchNavy-800">5%</span>
+          </div>
+        </div>
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+          <div id="progress-bar" class="bg-gradient-to-r from-frenchNavy-800 to-frenchNavy-700 h-full rounded-full transition-all duration-300" style="width: 5%"></div>
+        </div>
+      </div>
+
+      <!-- Tarjeta principal de traducción -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-8">
+        <!-- Frase en español -->
+        <div class="mb-6">
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-frenchGold-600">
+              Traduce al francés • Frase #<span id="q-number">1</span>
+            </span>
+            <span id="q-word-count-hint" class="text-xs font-medium text-slate-400">
+              4 palabras esperadas
+            </span>
+          </div>
+          <div class="p-4 sm:p-5 rounded-xl bg-frenchNavy-50/70 border border-frenchNavy-100">
+            <p id="spanish-prompt" class="text-lg sm:text-2xl font-extrabold text-frenchNavy-950 leading-snug">
+              Mi padre es abogado.
+            </p>
+            <p id="prompt-hint" class="hidden text-xs sm:text-sm text-frenchNavy-800 mt-1.5 font-medium flex items-center gap-1.5">
+              <i class="fa-solid fa-circle-info text-frenchNavy-700"></i>
+              <span id="prompt-hint-text"></span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Área de escritura -->
+        <div class="space-y-3">
+          <label for="french-input" class="block text-xs sm:text-sm font-semibold text-slate-700">
+            Tu traducción en francés:
+          </label>
+          <div class="relative">
+            <input type="text" id="french-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+              placeholder="Escribe aquí la oración en francés..."
+              class="w-full px-4 py-3.5 rounded-xl border-2 border-slate-300 focus:border-frenchNavy-800 focus:ring-2 focus:ring-frenchNavy-800/20 outline-none transition text-base sm:text-lg font-medium text-slate-900 disabled:bg-slate-50 disabled:text-slate-600"
+              onkeydown="handleInputKeydown(event)">
+          </div>
+
+          <!-- Teclado rápido de caracteres franceses -->
+          <div id="french-keyboard" class="pt-1">
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="text-[11px] font-semibold text-slate-400 mr-1">Caracteres:</span>
+              <button type="button" onclick="insertFrenchChar('é')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">é</button>
+              <button type="button" onclick="insertFrenchChar('è')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">è</button>
+              <button type="button" onclick="insertFrenchChar('ê')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">ê</button>
+              <button type="button" onclick="insertFrenchChar('à')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">à</button>
+              <button type="button" onclick="insertFrenchChar('â')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">â</button>
+              <button type="button" onclick="insertFrenchChar('ç')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">ç</button>
+              <button type="button" onclick="insertFrenchChar('î')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">î</button>
+              <button type="button" onclick="insertFrenchChar('ô')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">ô</button>
+              <button type="button" onclick="insertFrenchChar('û')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">û</button>
+              <button type="button" onclick="insertFrenchChar('œ')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">œ</button>
+              <button type="button" onclick="insertFrenchChar('\'')" class="char-btn px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-frenchNavy-100 hover:text-frenchNavy-900 active:scale-95 text-slate-700 font-bold text-sm border border-slate-200 transition">'</button>
+            </div>
+          </div>
+
+          <!-- Botón Verificar Respuesta -->
+          <div id="verify-btn-wrapper" class="pt-2">
+            <button type="button" id="btn-verify" onclick="verifyCurrentSentence()"
+              class="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-sm sm:text-base shadow-sm transition flex items-center justify-center gap-2">
+              <i class="fa-solid fa-check-double"></i>
+              <span>Verificar respuesta</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==================== PANEL DE CORRECCIÓN PALABRA POR PALABRA ==================== -->
+        <div id="correction-panel" class="hidden mt-6 pt-6 border-t border-slate-200 space-y-4 fade-in">
+          <!-- Cabecera de resultado de la frase -->
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span id="sentence-status-badge" class="px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide bg-emerald-100 text-emerald-800">
+                100% Acierto
+              </span>
+              <span id="sentence-words-ratio" class="text-xs sm:text-sm font-semibold text-slate-600">
+                4 / 4 palabras acertadas
+              </span>
+            </div>
+          </div>
+
+          <!-- Desglose visual palabra por palabra -->
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/90 space-y-2.5">
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Análisis palabra por palabra:
+            </div>
+            <div id="word-tokens-container" class="flex flex-wrap gap-2">
+              <!-- Etiquetas visuales por cada palabra -->
+            </div>
+          </div>
+
+          <!-- Traducción modelo de referencia -->
+          <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200 flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center shrink-0 mt-0.5">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wider text-emerald-800">Traducción modelo correcta:</div>
+              <div id="reference-translation" class="text-base sm:text-lg font-extrabold text-emerald-950 mt-0.5">
+                Mon père est avocat.
+              </div>
+            </div>
+          </div>
+
+          <!-- Regla gramatical de la lección -->
+          <div class="p-4 rounded-xl bg-frenchNavy-50/60 border border-frenchNavy-100 flex items-start gap-3">
+            <i class="fa-solid fa-graduation-cap text-frenchNavy-800 mt-1"></i>
+            <div class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+              <strong class="text-frenchNavy-900 block mb-0.5">Nota gramatical:</strong>
+              <span id="grammar-rule-text">Explicación aquí.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controles inferiores de navegación -->
+        <div class="mt-7 pt-5 border-t border-slate-100 flex items-center justify-between gap-2">
+          <button type="button" id="btn-prev" onclick="prevSentence()"
+            class="px-3.5 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 font-semibold text-xs sm:text-sm transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1.5">
+            <i class="fa-solid fa-chevron-left text-xs"></i>
+            <span>Anterior</span>
+          </button>
+
+          <button type="button" onclick="toggleQuestionMap()"
+            class="px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs sm:text-sm transition flex items-center gap-1.5">
+            <i class="fa-solid fa-table-cells"></i>
+            <span class="hidden sm:inline">Mapa (20)</span>
+          </button>
+
+          <button type="button" id="btn-next" onclick="nextSentence()"
+            class="px-5 py-2.5 rounded-xl bg-frenchNavy-800 hover:bg-frenchNavy-900 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center gap-2">
+            <span id="btn-next-text">Siguiente</span>
+            <i id="btn-next-icon" class="fa-solid fa-chevron-right text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mapa desplegable de las 20 frases -->
+      <div id="question-map-panel" class="hidden bg-white rounded-2xl shadow-sm border border-slate-200 p-5 fade-in">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <h4 class="font-bold text-xs sm:text-sm text-slate-800">Progreso de las 20 frases</h4>
+          <div class="flex items-center gap-3 text-[11px] text-slate-500">
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Perfecta</span>
+            <span clas
