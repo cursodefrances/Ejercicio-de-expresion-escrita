@@ -330,3 +330,340 @@
           <div class="flex items-center gap-3 text-[11px] text-slate-500">
             <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Perfecta</span>
             <span class="flex i
+              tems-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span> Perfecta</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span> Parcial</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-frenchRed-500 inline-block"></span> A reforzar</span>
+            <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-slate-200 inline-block"></span> Pendiente</span>
+          </div>
+        </div>
+        <div id="question-map-grid" class="grid grid-cols-5 sm:grid-cols-10 gap-2"></div>
+      </div>
+    </section>
+
+    <!-- ==================== VISTA 3: INFORME FINAL Y DIAGNÓSTICO ==================== -->
+    <section id="view-results" class="hidden fade-in space-y-6">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8 text-center">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-frenchNavy-100 text-frenchNavy-800 mb-3">
+          <i class="fa-solid fa-award"></i> Diagnóstico de Producción Escrita
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-frenchNavy-950 mb-1">
+          ¡Evaluación completada, <span id="result-student-name">Estudiante</span>!
+        </h2>
+        <p class="text-sm text-slate-500 mb-6">Resumen de precisión palabra por palabra en las 20 frases (Leçons 1 à 8)</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto mb-6">
+          <div class="p-4 rounded-xl bg-frenchNavy-50 border border-frenchNavy-100">
+            <div class="text-xs font-bold uppercase text-frenchNavy-700 mb-1">Puntaje por palabras</div>
+            <div id="final-word-points" class="text-2xl sm:text-3xl font-extrabold text-frenchNavy-950">0 / 0</div>
+          </div>
+          <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+            <div class="text-xs font-bold uppercase text-emerald-700 mb-1">Precisión global</div>
+            <div id="final-accuracy" class="text-2xl sm:text-3xl font-extrabold text-emerald-800">0%</div>
+          </div>
+          <div class="p-4 rounded-xl bg-amber-50 border border-amber-200">
+            <div class="text-xs font-bold uppercase text-amber-700 mb-1">Frases perfectas</div>
+            <div id="final-perfect-sentences" class="text-2xl sm:text-3xl font-extrabold text-amber-800">0 / 20</div>
+          </div>
+        </div>
+
+        <div id="diagnostic-box" class="text-left p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200 max-w-2xl mx-auto mb-6 text-xs sm:text-sm text-slate-700 leading-relaxed"></div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <button type="button" onclick="reviewFromStart()"
+            class="px-5 py-3 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 font-bold text-sm transition">
+            Revisar frases
+          </button>
+          <button type="button" onclick="restartTest()"
+            class="px-6 py-3 rounded-xl bg-frenchNavy-800 hover:bg-frenchNavy-900 text-white font-bold text-sm shadow-sm transition">
+            Intentar nuevamente
+          </button>
+        </div>
+      </div>
+
+      <div id="results-detail-list" class="space-y-3"></div>
+    </section>
+
+  </main>
+
+  <script>
+    const SENTENCES = [
+      { id: 1, lesson: "Leçon 1", es: "Mi padre es abogado.", fr: "Mon père est avocat.", alts: ["Mon père est avocat"], hint: "Adjetivo posesivo masculino singular + profesión sin artículo.", rule: "En francés, delante de una profesión no modificada tras 'être', se omite el artículo indefinido ('est avocat')." },
+      { id: 2, lesson: "Leçon 1", es: "Yo me llamo Camille y soy estudiante.", fr: "Je m'appelle Camille et je suis étudiant.", alts: ["Je m'appelle Camille et je suis étudiante.", "Je m'appelle Camille et je suis étudiant", "Je m'appelle Camille et je suis étudiante"], hint: "Verbo pronominal 's'appeler' y presente de 'être'.", rule: "Para presentarse se usa 'je m'appelle...' y 'je suis...' seguido de la profesión o condición." },
+      { id: 3, lesson: "Leçon 2", es: "Ella vive en París con su hermana.", fr: "Elle vit à Paris avec sa sœur.", alts: ["Elle vit à Paris avec sa sœur"], hint: "Ciudad con 'à' y posesivo femenino 'sa'.", rule: "Las ciudades suelen ir precedidas de la preposición 'à' ('à Paris'), y 'sœur' es femenino singular ('sa sœur')." },
+      { id: 4, lesson: "Leçon 2", es: "Nosotros hablamos francés e inglés.", fr: "Nous parlons français et anglais.", alts: ["Nous parlons français et anglais"], hint: "Terminación en '-ons' con 'nous'.", rule: "Los verbos regulares en -er forman la primera persona del plural ('nous') en -ons." },
+      { id: 5, lesson: "Leçon 3", es: "Tengo veinte años.", fr: "J'ai vingt ans.", alts: ["J'ai vingt ans"], hint: "En francés la edad usa el verbo 'avoir', no 'être'.", rule: "Para expresar la edad se emplea 'avoir + número + ans' ('j'ai vingt ans')." },
+      { id: 6, lesson: "Leçon 3", es: "Hay un libro sobre la mesa.", fr: "Il y a un livre sur la table.", alts: ["Il y a un livre sur la table"], hint: "Expresión invariable 'il y a'.", rule: "'Il y a' significa 'hay' y no cambia de forma en singular ni en plural." },
+      { id: 7, lesson: "Leçon 4", es: "Me gusta mucho el café por la mañana.", fr: "J'aime beaucoup le café le matin.", alts: ["J'aime beaucoup le café le matin"], hint: "Artículo definido con 'aimer' y hábito diario.", rule: "Con verbos de preferencia como 'aimer', se usa el artículo definido ('le café') y 'le matin' para hábitos." },
+      { id: 8, lesson: "Leçon 4", es: "Tú no comes carne.", fr: "Tu ne manges pas de viande.", alts: ["Tu ne manges pas de viande"], hint: "Negación 'ne... pas' y artículo partitivo 'de' tras negación.", rule: "En frases negativas con 'ne... pas', los artículos partitivos ('du', 'de la', 'des') pasan a 'de' (o 'd'')." },
+      { id: 9, lesson: "Leçon 5", es: "Voy a la biblioteca esta tarde.", fr: "Je vais à la bibliothèque cet après-midi.", alts: ["Je vais à la bibliothèque cet après-midi"], hint: "Verbo 'aller' + 'à la' para lugar femenino.", rule: "'Aller' en primera persona es 'je vais'; 'à + la' permanece 'à la' delante de un sustantivo femenino." },
+      { id: 10, lesson: "Leçon 5", es: "Ellos van al cine el viernes.", fr: "Ils vont au cinéma vendredi.", alts: ["Ils vont au cinéma le vendredi", "Ils vont au cinéma vendredi"], hint: "Contracción 'à + le = au'.", rule: "'À + le' se contrae obligatoriamente en 'au' ('au cinéma')." },
+      { id: 11, lesson: "Leçon 6", es: "Puedes ayudarme, por favor?", fr: "Tu peux m'aider, s'il te plaît ?", alts: ["Peux-tu m'aider, s'il te plaît ?", "Tu peux m'aider, s'il te plaît"], hint: "Verbo 'pouvoir' + infinitivo + 's'il te plaît'.", rule: "Cuando dos verbos van seguidos, el segundo queda en infinitivo ('m'aider')." },
+      { id: 12, lesson: "Leçon 6", es: "Quiero comprar un billete de tren.", fr: "Je veux acheter un billet de train.", alts: ["Je veux acheter un billet de train"], hint: "Verbo 'vouloir' + infinitivo 'acheter'.", rule: "'Je veux' se acompaña del verbo en infinitivo sin preposición ('je veux acheter')." },
+      { id: 13, lesson: "Leçon 7", es: "Ayer terminé mi tarea.", fr: "Hier, j'ai fini mes devoirs.", alts: ["Hier j'ai fini mes devoirs", "Hier, j'ai fini mes devoirs"], hint: "Passé composé con 'avoir' + participio en '-i'.", rule: "Los verbos en -ir regulares forman el participio pasado en -i ('fini') con auxiliar 'avoir'." },
+      { id: 14, lesson: "Leçon 7", es: "Ella salió temprano esta mañana.", fr: "Elle est sortie tôt ce matin.", alts: ["Elle est sortie tôt ce matin"], hint: "Verbo de movimiento con 'être' y concordancia femenina.", rule: "'Sortir' suele conjugarse con 'être' en passé composé y el participio concuerda en género y número ('sortie')." },
+      { id: 15, lesson: "Leçon 8", es: "El apartamento es más grande que el estudio.", fr: "L'appartement est plus grand que le studio.", alts: ["L'appartement est plus grand que le studio"], hint: "Comparativo de superioridad: 'plus + adjetivo + que'.", rule: "El comparativo de superioridad se forma con 'plus + adjetivo + que'." },
+      { id: 16, lesson: "Leçon 8", es: "Vamos a viajar el próximo mes.", fr: "Nous allons voyager le mois prochain.", alts: ["Nous allons voyager le mois prochain"], hint: "Futur proche: 'aller' en presente + infinitivo.", rule: "El 'futur proche' expresa una acción próxima usando 'aller' en presente + infinitivo ('allons voyager')." },
+      { id: 17, lesson: "Leçon 4", es: "Bebo un poco de agua.", fr: "Je bois un peu d'eau.", alts: ["Je bois un peu d'eau"], hint: "Expresión de cantidad 'un peu de' + vocal.", rule: "Tras expresiones de cantidad como 'un peu de', se usa 'de' o 'd'' sin artículo ('d'eau')." },
+      { id: 18, lesson: "Leçon 3", es: "Mis amigos son simpáticos.", fr: "Mes amis sont sympathiques.", alts: ["Mes amis sont sympathiques"], hint: "Plural de 'mon/ma' -> 'mes' y adjetivo plural.", rule: "El plural de 'mon/ma/ton/ta/son' es 'mes/tes/ses', y el adjetivo toma '-s' en plural." },
+      { id: 19, lesson: "Leçon 5", es: "La estación está cerca de aquí.", fr: "La gare est près d'ici.", alts: ["La gare est près d'ici"], hint: "Localización con 'être' y 'près de'.", rule: "Para indicar proximidad se utiliza 'près de' ('près d'ici')." },
+      { id: 20, lesson: "Leçon 8", es: "Es una buena idea.", fr: "C'est une bonne idée.", alts: ["C'est une bonne idée"], hint: "Presentativo 'c'est' + artículo indefinido femenino.", rule: "'C'est' se emplea para identificar o valorar ('c'est une bonne idée')." }
+    ];
+
+    let state = {
+      studentName: "Estudiante",
+      currentIndex: 0,
+      answers: Array(SENTENCES.length).fill(null)
+    };
+
+    function normalizeText(str) {
+      return (str || "")
+        .toLowerCase()
+        .replace(/[’']/g, "'")
+        .replace(/[œ]/g, "oe")
+        .replace(/[æ]/g, "ae")
+        .replace(/[.,!?;:¿¡"«»()]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function stripDiacritics(str) {
+      return normalizeText(str).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
+
+    function tokenize(str) {
+      const clean = normalizeText(str).replace(/'/g, " ");
+      return clean ? clean.split(" ").filter(Boolean) : [];
+    }
+
+    function evaluateSentence(userInput, sentence) {
+      const targetTokens = tokenize(sentence.fr);
+      const userTokens = tokenize(userInput);
+
+      const candidates = [sentence.fr, ...(sentence.alts || [])];
+      const exactMatch = candidates.some(alt => normalizeText(userInput) === normalizeText(alt));
+
+      let points = 0;
+      const wordResults = targetTokens.map((expectedWord, idx) => {
+        const expectedPlain = stripDiacritics(expectedWord);
+        const actualWord = userTokens[idx] || "";
+        const actualPlain = stripDiacritics(actualWord);
+
+        if (actualWord && actualWord === expectedWord) {
+          points += 1;
+          return { expected: expectedWord, actual: actualWord, status: "exact", score: 1 };
+        }
+        if (actualWord && actualPlain === expectedPlain) {
+          points += 0.5;
+          return { expected: expectedWord, actual: actualWord, status: "partial", score: 0.5 };
+        }
+        return { expected: expectedWord, actual: actualWord, status: "wrong", score: 0 };
+      });
+
+      if (exactMatch) {
+        points = targetTokens.length;
+        wordResults.forEach(w => {
+          w.actual = w.expected;
+          w.status = "exact";
+          w.score = 1;
+        });
+      }
+
+      const maxPoints = targetTokens.length;
+      const accuracy = maxPoints > 0 ? Math.round((points / maxPoints) * 100) : 0;
+      const isPerfect = points === maxPoints && maxPoints > 0;
+
+      return {
+        rawInput: userInput,
+        wordResults,
+        points,
+        maxPoints,
+        accuracy,
+        isPerfect
+      };
+    }
+
+    function startWritingTest() {
+      const nameInput = document.getElementById("student-name");
+      const rawName = (nameInput ? nameInput.value : "").trim();
+      state.studentName = rawName || "Estudiante";
+      state.currentIndex = 0;
+      state.answers = Array(SENTENCES.length).fill(null);
+
+      document.getElementById("header-student-name").textContent = state.studentName;
+      document.getElementById("header-active-stats").classList.remove("hidden");
+      document.getElementById("header-active-stats").classList.add("flex");
+
+      document.getElementById("view-start").classList.add("hidden");
+      document.getElementById("view-results").classList.add("hidden");
+      document.getElementById("view-exercise").classList.remove("hidden");
+
+      updateTotalScoreHeader();
+      renderSentence(0);
+    }
+
+    function renderSentence(index) {
+      state.currentIndex = index;
+      const item = SENTENCES[index];
+      const saved = state.answers[index];
+      const total = SENTENCES.length;
+      const pct = Math.round(((index + 1) / total) * 100);
+      const expectedCount = tokenize(item.fr).length;
+
+      document.getElementById("q-lesson-badge").innerHTML = `<i class="fa-solid fa-book-open"></i><span>${item.lesson}</span>`;
+      document.getElementById("q-current").textContent = index + 1;
+      document.getElementById("q-number").textContent = index + 1;
+      document.getElementById("q-percent").textContent = `${pct}%`;
+      document.getElementById("progress-bar").style.width = `${pct}%`;
+      document.getElementById("q-word-count-hint").textContent = `${expectedCount} palabras esperadas`;
+      document.getElementById("spanish-prompt").textContent = item.es;
+
+      const hintEl = document.getElementById("prompt-hint");
+      if (item.hint) {
+        document.getElementById("prompt-hint-text").textContent = item.hint;
+        hintEl.classList.remove("hidden");
+      } else {
+        hintEl.classList.add("hidden");
+      }
+
+      const inputEl = document.getElementById("french-input");
+      const correctionPanel = document.getElementById("correction-panel");
+
+      document.getElementById("btn-prev").disabled = index === 0;
+      const isLast = index === total - 1;
+      document.getElementById("btn-next-text").textContent = isLast ? "Finalizar" : "Siguiente";
+      document.getElementById("btn-next-icon").className = isLast ? "fa-solid fa-flag-checkered text-xs" : "fa-solid fa-chevron-right text-xs";
+
+      if (saved) {
+        inputEl.value = saved.rawInput;
+        renderCorrectionPanel(saved, item);
+        correctionPanel.classList.remove("hidden");
+      } else {
+        inputEl.value = "";
+        correctionPanel.classList.add("hidden");
+      }
+
+      renderQuestionMap();
+      inputEl.focus();
+    }
+
+    function verifyCurrentSentence() {
+      const inputEl = document.getElementById("french-input");
+      const text = inputEl.value.trim();
+      if (!text) {
+        inputEl.focus();
+        inputEl.classList.add("border-frenchRed-500");
+        setTimeout(() => inputEl.classList.remove("border-frenchRed-500"), 900);
+        return;
+      }
+
+      const item = SENTENCES[state.currentIndex];
+      const evaluation = evaluateSentence(text, item);
+      state.answers[state.currentIndex] = evaluation;
+
+      updateTotalScoreHeader();
+      renderCorrectionPanel(evaluation, item);
+      document.getElementById("correction-panel").classList.remove("hidden");
+      renderQuestionMap();
+    }
+
+    function renderCorrectionPanel(evaluation, item) {
+      const badge = document.getElementById("sentence-status-badge");
+      const ratio = document.getElementById("sentence-words-ratio");
+      const tokensContainer = document.getElementById("word-tokens-container");
+
+      ratio.textContent = `${evaluation.points} / ${evaluation.maxPoints} pts (${evaluation.accuracy}%)`;
+
+      if (evaluation.isPerfect) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide bg-emerald-100 text-emerald-800";
+        badge.textContent = "100% Acierto";
+      } else if (evaluation.points > 0) {
+        badge.className = "px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide bg-amber-100 text-amber-800";
+        badge.textContent = "Acierto parcial";
+      } else {
+        badge.className = "px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide bg-frenchRed-100 text-frenchRed-800";
+        badge.textContent = "A corregir";
+      }
+
+      tokensContainer.innerHTML = evaluation.wordResults.map(w => {
+        if (w.status === "exact") {
+          return `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs sm:text-sm font-bold">
+            <i class="fa-solid fa-check text-emerald-600 text-xs"></i>${w.expected} <span class="text-[11px] opacity-75">(1 pt)</span>
+          </span>`;
+        }
+        if (w.status === "partial") {
+          return `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-100 text-amber-900 border border-amber-200 text-xs sm:text-sm font-bold">
+            <i class="fa-solid fa-minus text-amber-600 text-xs"></i>${w.actual} → <u>${w.expected}</u> <span class="text-[11px] opacity-75">(0.5 pt)</span>
+          </span>`;
+        }
+        const shown = w.actual ? `"${w.actual}" → ${w.expected}` : `[falta] ${w.expected}`;
+        return `<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-frenchRed-50 text-frenchRed-800 border border-frenchRed-200 text-xs sm:text-sm font-bold">
+          <i class="fa-solid fa-xmark text-frenchRed-600 text-xs"></i>${shown} <span class="text-[11px] opacity-75">(0 pts)</span>
+        </span>`;
+      }).join("");
+
+      document.getElementById("reference-translation").textContent = item.fr;
+      document.getElementById("grammar-rule-text").textContent = item.rule;
+    }
+
+    function updateTotalScoreHeader() {
+      let totalPts = 0;
+      state.answers.forEach(a => {
+        if (a) totalPts += a.points;
+      });
+      const formatted = Number.isInteger(totalPts) ? totalPts : totalPts.toFixed(1);
+      document.getElementById("header-word-score").textContent = `${formatted} pts`;
+    }
+
+    function insertFrenchChar(ch) {
+      const input = document.getElementById("french-input");
+      if (!input) return;
+      const start = input.selectionStart ?? input.value.length;
+      const end = input.selectionEnd ?? input.value.length;
+      input.value = input.value.slice(0, start) + ch + input.value.slice(end);
+      const nextPos = start + ch.length;
+      input.focus();
+      input.setSelectionRange(nextPos, nextPos);
+    }
+
+    function handleInputKeydown(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        if (!state.answers[state.currentIndex]) {
+          verifyCurrentSentence();
+        } else {
+          nextSentence();
+        }
+      }
+    }
+
+    function prevSentence() {
+      if (state.currentIndex > 0) {
+        renderSentence(state.currentIndex - 1);
+      }
+    }
+
+    function nextSentence() {
+      const inputEl = document.getElementById("french-input");
+      if (!state.answers[state.currentIndex] && inputEl.value.trim()) {
+        verifyCurrentSentence();
+        return;
+      }
+      if (state.currentIndex < SENTENCES.length - 1) {
+        renderSentence(state.currentIndex + 1);
+      } else {
+        showResults();
+      }
+    }
+
+    function toggleQuestionMap() {
+      document.getElementById("question-map-panel").classList.toggle("hidden");
+    }
+
+    function renderQuestionMap() {
+      const grid = document.getElementById("question-map-grid");
+      grid.innerHTML = SENTENCES.map((_, idx) => {
+        const ans = state.answers[idx];
+        let cls = "bg-slate-100 text-slate-700 border-slate-200 hover:bg-slate-200";
+        if (ans) {
+          if (ans.isPerfect) cls = "bg-emerald-500 text-white border-emerald-600";
+          else if (ans.points > 0) cls = "bg-amber-400 text-slate-900 border-amber-5
